@@ -1,7 +1,7 @@
 NUMBER_OF_LINES = 500;
 STARTING_LINE = 250;
 %use raw_image to measure this values approximately
-FIRST_LINE_CORRECTION = 0;
+FIRST_LINE_CORRECTION = 1800;
 %use final_image to define this value, corrects the top left corner
 [z,Fs] = audioread("signal.WAV");
 z = abs(hilbert(z));
@@ -10,7 +10,7 @@ n = length(z);
 
 z = uint8(round((255 / max(z)) * z));
 %z = reshape(z, 2080, []);
-b = uint8(zeros(NUMBER_OF_LINES + 1, 2080));
+b = uint8(zeros(NUMBER_OF_LINES, 2080));
 str = 1;
 i = STARTING_LINE * 2080 + FIRST_LINE_CORRECTION;
 [check, jump] = synch_check_first(z, i);
@@ -30,5 +30,9 @@ while(i < n && str < NUMBER_OF_LINES)
     str = str + 1;
     i = i + 2077;
 end
-smoothdata(b, 2);
+%smoothdata(b, 2);
+l1 = b(:, 1:1040);
+l2 = b(:, 1041:2080);
+b(:, 1041:2080) = l1;
+b(:, 1:1040) = l2;
 imwrite(b, "final_image.png");
