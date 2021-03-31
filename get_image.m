@@ -1,7 +1,7 @@
-NUMBER_OF_LINES = 500;
-STARTING_LINE = 250;
+NUMBER_OF_LINES = 600;
+STARTING_LINE = 300;
 %use raw_image to measure this values approximately
-FIRST_LINE_CORRECTION = 1800;
+FIRST_LINE_CORRECTION = 0;
 %use final_image to define this value, corrects the top left corner
 [z,Fs] = audioread("signal.WAV");
 z = abs(hilbert(z));
