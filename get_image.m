@@ -1,4 +1,4 @@
-NUMBER_OF_LINES = 600;
+NUMBER_OF_LINES = 450;
 STARTING_LINE = 300;
 %use raw_image to measure this values approximately
 FIRST_LINE_CORRECTION = 0;
@@ -30,9 +30,27 @@ while(i < n && str < NUMBER_OF_LINES)
     str = str + 1;
     i = i + 2077;
 end
-%smoothdata(b, 2);
+
+smoothdata(b, 2);
 l1 = b(:, 1:1040);
 l2 = b(:, 1041:2080);
 b(:, 1041:2080) = l1;
 b(:, 1:1040) = l2;
+al = max(b);
+bl = min(b);
+M = int64(max(al));
+m = int64(min(bl));
+b = int64(b);
+if (m ~= 0)
+    b = b - m;
+end
+if(M ~= 255)
+    b = b * 255;
+    b = b / M;
+end
+b = uint8(b);
 imwrite(b, "final_image.png");
+al = max(b);
+bl = min(b);
+M = int64(max(al))
+m = int64(min(bl))
