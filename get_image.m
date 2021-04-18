@@ -7,7 +7,7 @@ FIRST_LINE_CORRECTION = 0;
 z = abs(hilbert(z));
 z = resample(z, 4160, Fs);
 n = length(z);
-
+z = gpuArray(z);
 z = uint8(round((255 / max(z)) * z));
 %z = reshape(z, 2080, []);
 b = uint8(zeros(NUMBER_OF_LINES, 2080));
@@ -54,3 +54,4 @@ al = max(b);
 bl = min(b);
 M = int64(max(al))
 m = int64(min(bl))
+imshow(b);
